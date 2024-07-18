@@ -28,6 +28,7 @@ import { AxiosModule } from './module/axios/axios.module';
 import { OnlineModule } from './module/monitor/online/online.module';
 import { ServerModule } from './module/monitor/server/server.module';
 import { UploadModule } from './module/upload/upload.module';
+import { BannerModule } from './module/market/banner/banner.module';
 
 @Global()
 @Module({
@@ -87,6 +88,7 @@ import { UploadModule } from './module/upload/upload.module';
     AxiosModule,
     OnlineModule,
     ServerModule,
+    BannerModule,
     UploadModule,
   ],
   providers: [

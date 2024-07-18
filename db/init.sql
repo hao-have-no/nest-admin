@@ -63,6 +63,29 @@ create table sys_user (
   primary key (user_id)
 ) engine=innodb auto_increment=100 comment = '用户信息表';
 
+
+
+drop table if exists market_banner;
+create table market_banner (
+  banner_id        int     not null auto_increment    comment 'bannerID',
+  title varchar(200) not null comment '标题',
+  img_url varchar(200) not null comment '图片地址',
+  skip_url varchar(200) not null comment '外链地址',
+  content varchar(2000) not null comment '详情',
+  banner_type int default 0 comment '分类',
+  platform int default 0 comment '平台',
+  post varchar(30)     default ''                 comment '位置',
+  banner_state char(1)         default '0'                comment '是否展示',
+  create_by     varchar(64)     default ''                 comment '创建者',
+  create_time   datetime                                   comment '创建时间',
+  update_by     varchar(64)     default ''			       comment '更新者',
+  update_time   datetime                                   comment '更新时间',
+  remark        varchar(500)    default null               comment '备注',
+  del_flag      char(1)         default '0'                comment '删除标志（0代表存在 1代表删除）',
+  primary key (banner_id)
+)
+
+
 -- ----------------------------
 -- 初始化-用户信息表数据
 -- ----------------------------
