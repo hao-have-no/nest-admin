@@ -1,22 +1,22 @@
-import { IsString, IsEnum, IsOptional, IsNumber, IsNumberString } from 'class-validator';
-import { ApiProperty, PartialType } from '@nestjs/swagger';
+import { IsString, IsEnum, IsOptional, IsNumber } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 import { PagingDto } from 'src/common/dto/index';
 
 export enum StatusEnum {
-    STATIC = 0,
-    DYNAMIC = 1,
+    STATIC = '0',
+    DYNAMIC = '1',
   }
 
-export enum typeEnum {
-    S = 0,
-    D = 1,
-    W = 2
+export enum TypeEnum {
+    S = '0',
+    D = '1',
+    W = '2'
 }
 
-export enum platEnum{
-    P = 0,
-    W = 1,
-    H = 2
+export enum PlatEnum{
+    P = '0',
+    W = '1',
+    H = '2'
 }
 
 export enum PostEnum{
@@ -28,10 +28,9 @@ export enum PostEnum{
 export class CreateBannerDto {
     @ApiProperty({ required: true })
     @IsOptional()
-    @IsNumber()
+    @IsString()
     title?: string;
 
-    @ApiProperty({ required: true })
     @IsOptional()
     @IsString()
     content?:string
@@ -41,31 +40,34 @@ export class CreateBannerDto {
     @IsString()
     imgUrl?:string
 
-    @ApiProperty({ required: false })
     @IsOptional()
     @IsString()
     skipUrl?:string
 
-    @ApiProperty({ required: false })
+    @ApiProperty({ required: true })
     @IsOptional()
-    @IsEnum(typeEnum)
-    bannerType?:number
+    @IsString()
+    bannerType?:string
 
-    @ApiProperty({ required: false })
+    @ApiProperty({ required: true })
     @IsOptional()
-    @IsEnum(platEnum)
-    platform?:number
+    @IsString()
+    platform?:string
 
-    @ApiProperty({ required: false })
+
     @IsOptional()
-    @IsEnum(PostEnum)
+    @IsString()
     post?:string
 
-    @ApiProperty({ required: false })
     @IsOptional()
-    @IsEnum(StatusEnum)
+    @IsString()
     status?:string
 }
+
+export class UpdateBannerDto extends CreateBannerDto {
+    @IsNumber()
+    bannerId: number;
+  }
 
 export class listBannerDto extends PagingDto {
     @ApiProperty({ required: false })
@@ -80,13 +82,13 @@ export class listBannerDto extends PagingDto {
 
     @ApiProperty({ required: false })
     @IsOptional()
-    @IsEnum(typeEnum)
-    bannerType?:number
+    @IsEnum(TypeEnum)
+    bannerType?:string
 
     @ApiProperty({ required: false })
     @IsOptional()
-    @IsEnum(platEnum)
-    platform?:number
+    @IsEnum(PlatEnum)
+    platform?:string
 
     @ApiProperty({ required: false })
     @IsOptional()

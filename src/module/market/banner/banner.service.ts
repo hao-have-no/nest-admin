@@ -1,46 +1,50 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { listBannerDto } from './dto';
+import { listBannerDto, CreateBannerDto, UpdateBannerDto } from './dto';
 import { BannerEntity } from './entities/banner.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { ResultData } from 'src/common/utils/result';
 
 @Injectable()
 export class BannerService {
-    constructor(
-        @InjectRepository(BannerEntity)
-        private readonly bannerEntityRep: Repository<BannerEntity>
-    ){}
+  constructor(
+    @InjectRepository(BannerEntity)
+    private readonly bannerEntityRep: Repository<BannerEntity>,
+  ) {}
+
+  async create(banner: CreateBannerDto) {
+    await this.bannerEntityRep.save(banner);
+    return ResultData.ok();
+  }
 
   /**
-   * 用户列表
+   * banner列表
    * @param query
    * @returns
    */
 
-  async findAll(query:listBannerDto):Promise<any>{
+  async findAll(query: listBannerDto): Promise<any> {
     const entity = this.bannerEntityRep.createQueryBuilder('banner');
-    console.log('----->',query)
+    console.log('----->', query);
     entity.where('banner.delFlag = :delFlag', { delFlag: '0' });
-    if(query.title){
-        entity.andWhere(`banner.title LIKE "%${query.title}%"`); 
+    if (query.title) {
+      entity.andWhere(`banner.title LIKE "%${query.title}%"`);
     }
-    if(query.bannerType){
-        entity.andWhere('banner.bannerType = :bannerType', { bannerType: query.bannerType });
-    }
-
-    if(query.platform){
-        entity.andWhere('banner.platform = :platform', { platform: query.platform });
+    if (query.bannerType) {
+      entity.andWhere('banner.bannerType = :bannerType', { bannerType: query.bannerType });
     }
 
-    if(query.status){
-        entity.andWhere('banner.status = :status', { status: query.status });
+    if (query.platform) {
+      entity.andWhere('banner.platform = :platform', { platform: query.platform });
+    }
+
+    if (query.status) {
+      entity.andWhere('banner.status = :status', { status: query.status });
     }
 
     if (query.params?.beginTime && query.params?.endTime) {
-        entity.andWhere('banner.createTime BETWEEN :start AND :end', { start: query.params.beginTime, end: query.params.endTime });
-      }
-
+      entity.andWhere('banner.createTime BETWEEN :start AND :end', { start: query.params.beginTime, end: query.params.endTime });
+    }
 
     entity.skip(query.pageSize * (query.pageNum - 1)).take(query.pageSize);
     const [list, total] = await entity.getManyAndCount();
@@ -49,6 +53,36 @@ export class BannerService {
       list,
       total,
     });
-
   }
+
+
+  async findOne(bannerId:number){
+    const data = await this.bannerEntityRep.findOne({
+      where: {
+        bannerId: bannerId,
+      },
+    });
+    return ResultData.ok(data);
+  }
+
+  async update(updateBannerDto: UpdateBannerDto) {
+    await this.bannerEntityRep.update(
+      {
+        bannerId: updateBannerDto.bannerId,
+      },
+      updateBannerDto,
+    );
+    return ResultData.ok();
+  }
+
+  async remove(bannerIds: number[]) {
+    const data = await this.bannerEntityRep.update(
+      { bannerId: In(bannerIds) },
+      {
+        delFlag: '1',
+      },
+    );
+    return ResultData.ok(data);
+  }
+
 }

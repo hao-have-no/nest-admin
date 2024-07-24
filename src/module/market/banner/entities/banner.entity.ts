@@ -2,7 +2,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { BaseEntity } from 'src/common/entities/base';
 
 @Entity('market_banner',{
-    comment: 'banner图表',
+    comment: 'banner广告位',
 })
 
 export class BannerEntity extends BaseEntity {
@@ -44,19 +44,19 @@ export class BannerEntity extends BaseEntity {
     skipUrl: string
 
     @Column({
-        type: 'int',
+        type: 'varchar',
         name: 'banner_type',
         comment: '分类',
-        default: 0 // 0 展示 1 跳转详情页 2 跳转外链
+        default: '0' // 0 展示 1 跳转详情页 2 跳转外链
     })
-    bannerType:number
+    bannerType:string
 
     @Column({
-        type: 'int',
+        type: 'varchar',
         comment: '平台',
-        default: 0 // 0 pc  1 weixin  2 h5
+        default: '0' // 0 pc  1 weixin  2 h5
     })
-    platform:number
+    platform:string
 
     @Column({
         type: 'varchar',
