@@ -11,6 +11,13 @@ export enum TypeEnum {
   Instruct = '1',
   Notice = '2',
 }
+
+export enum PlatEnum{
+  P = '0',
+  W = '1',
+  H = '2'
+}
+
 export class CreateNoticeDto {
   @IsString()
   @Length(0, 50)
@@ -19,6 +26,16 @@ export class CreateNoticeDto {
   @IsString()
   @IsEnum(TypeEnum)
   noticeType: string;
+
+
+  @IsOptional()
+  @IsString()
+  platform?:string
+
+  @IsOptional()
+  @IsString()
+  onlineTime?:string
+
 
   @ApiProperty({
     required: true,
@@ -52,6 +69,16 @@ export class ListNoticeDto extends PagingDto {
   @IsString()
   @IsEnum(TypeEnum)
   noticeType?: string;
+
+  @IsOptional()
+  @IsString()
+  @IsEnum(PlatEnum)
+  platform?:string
+
+  @IsOptional()
+  @IsString()
+  onlineTime?:string
+  
 
   @IsOptional()
   @IsString()

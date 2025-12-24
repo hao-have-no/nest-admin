@@ -35,6 +35,7 @@ db:
     port: 3306
     charset: 'utf8mb4'
     logger: 'file'
+    timezone: Asia/BeiJing
     logging: true
     multipleStatements: true
     dropSchema: false

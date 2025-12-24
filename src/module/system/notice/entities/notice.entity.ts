@@ -17,4 +17,13 @@ export class SysNoticeEntity extends BaseEntity {
 
   @Column({ type: 'longtext', name: 'notice_content', default: null, comment: '公告内容' })
   public noticeContent: string;
+
+  // 上线时间
+  @Column({ type: 'varchar', name: 'online_time', default: '', comment: '上线时间' })
+  public onlineTime: string;
+
+  // 推送平台
+  @Column({ type: 'varchar', name: 'platform', length: 50, default: '', comment: '推送平台' })
+  public platform: string;
+
 }

@@ -25,7 +25,6 @@ export class BannerService {
 
   async findAll(query: listBannerDto): Promise<any> {
     const entity = this.bannerEntityRep.createQueryBuilder('banner');
-    console.log('----->', query);
     entity.where('banner.delFlag = :delFlag', { delFlag: '0' });
     if (query.title) {
       entity.andWhere(`banner.title LIKE "%${query.title}%"`);
